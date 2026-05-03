@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nível MAX — Games & Animes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #ff2d55;
+  --purple: #7c3aff;
+  --blue: #0ea5e9;
+  --amber: #f59e0b;
+  --bg: #0a0a0f;
+  --bg2: #13131e;
+  --bg3: #1a1a2a;
+  --border: #1e1e30;
+  --text: #e8e8f0;
+  --muted: #666;
+  --dim: #333;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ─── HEADER ─── */
+.header {
+  background: var(--bg);
+  border-bottom: 2px solid var(--red);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px;
+  letter-spacing: 2px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+.logo span { color: var(--red); }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.nav a {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color .2s;
+}
+.nav a:hover { color: var(--red); }
+
+.search-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.search-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ─── SEARCH OVERLAY ─── */
+.search-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,15,0.97);
+  z-index: 200;
+  padding: 5rem 2rem 2rem;
+  flex-direction: column;
+  align-items: center;
+}
+.search-overlay.active { display: flex; }
+
+.search-close {
+  position: absolute;
+  top: 1.5rem; right: 2rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+}
+.search-close:hover { color: #fff; }
+
+.search-input-wrap {
+  width: 100%;
+  max-width: 640px;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-bottom: 2px solid var(--red);
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  font-size: 22px;
+  padding: 1rem 1.25rem;
+  outline: none;
+  border-radius: 4px 4px 0 0;
+}
+.search-input::placeholder { color: var(--dim); }
+
+.search-results {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-result-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color .2s;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.search-result-item:hover { border-color: var(--red); }
+
+.search-result-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.search-result-sub { font-size: 12px; color: var(--muted); }
+.search-empty { color: var(--muted); font-size: 15px; text-align: center; margin-top: 1rem; }
+
+/* ─── BADGES ─── */
+.badge {
+  display: inline-block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.badge-game { background: var(--red); color: #fff; }
+.badge-anime { background: var(--purple); color: #fff; }
+.badge-review { background: var(--blue); color: #fff; }
+.badge-top { background: var(--amber); color: #1a1000; }
+
+/* ─── PAGES ─── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ─── HOME ─── */
+.hero {
+  position: relative;
+  padding: 3.5rem 2rem 2.5rem;
+  background: linear-gradient(180deg, #13131e 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  cursor: pointer;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -80px;
+  width: 340px; height: 340px;
+  background: radial-gradient(circle, rgba(255,45,85,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero:hover .hero-read { color: #fff; }
+
+.hero-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: .75rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-label::before {
+  content: '';
+  display: inline-block;
+  width: 24px; height: 2px;
+  background: var(--red);
+}
+
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(42px, 7vw, 72px);
+  line-height: .95;
+  color: #fff;
+  letter-spacing: 1px;
+  max-width: 640px;
+  margin-bottom: 1rem;
+}
+.hero h1 em { font-style: normal; color: var(--red); }
+
+.hero-meta {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-read {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--red);
+  transition: color .2s;
+}
+
+.tags-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 1.5rem 2rem .5rem;
+}
+.tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+.tag:hover, .tag.active { border-color: var(--red); color: var(--red); }
+
+.section { padding: 1.5rem 2rem 2rem; }
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+  color: #fff;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color .2s, transform .15s;
+}
+.card:hover { border-color: var(--red); transform: translateY(-2px); }
+
+.card-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  font-size: 48px;
+}
+.card-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(19,19,30,0.7), transparent);
+}
+
+.card-body { padding: 12px 14px 14px; }
+
+.card-badge-row { display: flex; gap: 6px; margin-bottom: 8px; }
+
+.card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+.card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+}
+.card-date {
+  font-size: 11px;
+  color: var(--dim);
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: .5px;
+}
+.card-read {
+  font-size: 11px;
+  color: var(--red);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ─── TRENDING ─── */
+.trending-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color .2s;
+  margin-bottom: 8px;
+}
+.trending-item:hover { border-color: var(--red); }
+.trending-item:hover .trending-num { color: var(--red); }
+
+.trending-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--border);
+  min-width: 32px;
+  line-height: 1;
+  transition: color .2s;
+}
+.trending-info { flex: 1; }
+.trending-ttl {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.trending-sub { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+
+/* ─── ARTICLE PAGE ─── */
+.article-back {
+  padding: 1.25rem 2rem .5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.back-btn {
+  background: none;
+  border: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color .2s;
+}
+.back-btn:hover { color: var(--red); }
+
+.article-hero {
+  padding: 2rem 2rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+}
+
+.article-category {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: .5rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.article-category::before { content: ''; display: inline-block; width: 20px; height: 2px; background: var(--red); }
+
+.article-h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 6vw, 60px);
+  line-height: .95;
+  color: #fff;
+  letter-spacing: 1px;
+  max-width: 700px;
+  margin-bottom: 1rem;
+}
+.article-h1 em { font-style: normal; color: var(--red); }
+
+.article-byline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.article-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.author-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  color: #fff;
+}
+.article-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: var(--amber);
+}
+
+.article-banner {
+  width: 100%;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  border-bottom: 1px solid var(--border);
+}
+
+.article-body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 2rem 3rem;
+}
+
+.article-body p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #c8c8d8;
+  margin-bottom: 1.25rem;
+}
+
+.article-body h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 1px;
+  color: #fff;
+  margin: 2rem 0 .75rem;
+}
+
+.article-body blockquote {
+  border-left: 3px solid var(--red);
+  padding: .75rem 1.25rem;
+  margin: 1.5rem 0;
+  background: var(--bg2);
+  border-radius: 0 6px 6px 0;
+}
+.article-body blockquote p {
+  font-style: italic;
+  color: var(--text);
+  margin: 0;
+}
+
+.score-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--red);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.score-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 72px;
+  line-height: 1;
+  color: var(--red);
+}
+.score-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.score-verdict {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: #fff;
+}
+
+.pros-cons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 1.5rem 0;
+}
+.pros, .cons {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+}
+.pros { border-top: 2px solid #22c55e; }
+.cons { border-top: 2px solid var(--red); }
+.pros-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #22c55e;
+  margin-bottom: .75rem;
+}
+.cons-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: .75rem;
+}
+.pros li, .cons li {
+  font-size: 14px;
+  color: #c8c8d8;
+  line-height: 1.6;
+  margin-bottom: 4px;
+  margin-left: 1rem;
+}
+
+.related-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: var(--dim);
+  letter-spacing: 2px;
+}
+.footer-logo span { color: var(--red); opacity: .5; }
+.footer-copy { font-size: 12px; color: var(--dim); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo" onclick="showPage('home')">Nível <span>MAX</span></div>
+  <nav>
+    <ul class="nav">
+      <li><a href="#" onclick="filterTag('Games');return false;">Games</a></li>
+      <li><a href="#" onclick="filterTag('Anime');return false;">Animes</a></li>
+      <li><a href="#" onclick="filterTag('Review');return false;">Reviews</a></li>
+      <li><a href="#" onclick="filterTag('Top');return false;">Top Listas</a></li>
+    </ul>
+  </nav>
+  <button class="search-btn" onclick="openSearch()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    Buscar
+  </button>
+</header>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay">
+  <button class="search-close" onclick="closeSearch()">✕</button>
+  <div class="search-input-wrap">
+    <input class="search-input" id="searchInput" type="text" placeholder="Buscar games, animes, reviews..." oninput="doSearch(this.value)" />
+  </div>
+  <div class="search-results" id="searchResults">
+    <div class="search-empty">Digite para buscar...</div>
+  </div>
+</div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <div class="hero" onclick="showArticle(0)">
+    <div class="hero-label">Destaque da semana</div>
+    <h1>Elden Ring:<br><em>Nightreign</em><br>vale a pena?</h1>
+    <div class="hero-meta">
+      <span class="badge badge-review">Review</span>
+      <span class="badge badge-game">Games</span>
+      <span>3 mai 2026 · 8 min leitura</span>
+      <span class="hero-read">Ler artigo →</span>
+    </div>
+  </div>
+
+  <!-- Tags -->
+  <div class="tags-row">
+    <div class="tag active" onclick="filterTag('Tudo')">Tudo</div>
+    <div class="tag" onclick="filterTag('Games')">Games</div>
+    <div class="tag" onclick="filterTag('Anime')">Anime</div>
+    <div class="tag" onclick="filterTag('Review')">Review</div>
+    <div class="tag" onclick="filterTag('RPG')">RPG</div>
+    <div class="tag" onclick="filterTag('Shonen')">Shonen</div>
+    <div class="tag" onclick="filterTag('Indie')">Indie</div>
+    <div class="tag" onclick="filterTag('Isekai')">Isekai</div>
+    <div class="tag" onclick="filterTag('Top')">Top Listas</div>
+  </div>
+
+  <!-- Posts Grid -->
+  <section class="section">
+    <div class="section-title">Últimos Posts</div>
+    <div class="grid" id="postsGrid"></div>
+  </section>
+
+  <!-- Trending -->
+  <section class="section">
+    <div class="section-title">Em Alta Agora</div>
+    <div id="trendingList"></div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Nível <span>MAX</span></div>
+    <div class="footer-copy">© 2026 Nível MAX · Feito para gamers e otakus</div>
+  </footer>
+</div>
+
+<!-- ARTICLE PAGE -->
+<div class="page" id="page-article">
+  <div class="article-back">
+    <button class="back-btn" onclick="showPage('home')">← Voltar</button>
+  </div>
+  <div id="articleContent"></div>
+</div>
+
+<script>
+const posts = [
+  {
+    id: 0,
+    title: "Elden Ring: Nightreign vale a pena?",
+    shortTitle: "Elden Ring: Nightreign vale a pena?",
+    desc: "O novo modo co-op da FromSoftware entrega ou decepciona os fãs da série?",
+    badge: "review",
+    badgeLabel: "Review",
+    category: "Games",
+    date: "03 MAI 2026",
+    icon: "⚔️",
+    bg: "#1a1020",
+    tags: ["Games","Review","RPG"],
+    read: "8 min",
+    author: "Lucas Mota",
+    initials: "LM",
+    rating: "8.5",
+    verdict: "Recomendado",
+    content: [
+      { type: "p", text: "A FromSoftware sempre soube como desafiar seus jogadores, e Elden Ring: Nightreign não é exceção. O novo modo roguelite cooperativo chega prometendo uma experiência diferente da campanha original — mas será que cumpre o que promete?" },
+      { type: "h2", text: "O que é Nightreign?" },
+      { type: "p", text: "Nightreign transforma Elden Ring num jogo de sobrevivência em sessões de 40 minutos. Você e até dois amigos exploram um mapa que diminui progressivamente, enfrentando inimigos e coletando itens até chegar ao chefe final da noite. A estrutura lembra muito um battle royale, mas com toda a alma de um soulslike." },
+      { type: "quote", text: "Nightreign é a prova de que a FromSoftware ainda sabe surpreender, mesmo quando o mundo inteiro está assistindo." },
+      { type: "h2", text: "Mecânicas de jogo" },
+      { type: "p", text: "Cada personagem — chamado de Nightfarer — tem habilidades únicas e estilos de combate distintos. O sistema de progressão durante a sessão é satisfatório: você começa fraco e termina poderoso, desde que faça as escolhas certas de itens e builds. A curva de dificuldade é bem calibrada para partidas em trio, mas solitária pode ser punitiva." },
+      { type: "p", text: "O mapa dinâmico é um dos pontos mais interessantes. A cada rodada ele muda, garantindo rejogabilidade real. Pontos de interesse aparecem aleatoriamente, e a pressão do mapa encolhendo força o grupo a tomar decisões rápidas." },
+      { type: "score", rating: "8.5", verdict: "Recomendado" },
+      { type: "proscons", pros: ["Roguelite satisfatório e rejogável","Personagens com estilos únicos","Chefes criativos e memoráveis","Cooperativo funciona muito bem"], cons: ["Solo pode ser muito punitivo","Pouca variedade de biomas","Curva de entrada íngreme","Online pode ser instável"] },
+      { type: "h2", text: "Vale a pena comprar?" },
+      { type: "p", text: "Se você curtiu Elden Ring e tem amigos para jogar, Nightreign é uma compra fácil. A experiência cooperativa é divertida e viciante. Se prefere jogar solo, talvez valha esperar promoções ou acompanhar patches que balanceiem melhor a dificuldade individual." }
+    ]
+  },
+  {
+    id: 1,
+    title: "Os 10 RPGs mais aguardados de 2026",
+    shortTitle: "Top 10 RPGs de 2026",
+    desc: "De Frostpunk 2 a Monster Hunter Wilds, a lista que todo gamer precisa ver.",
+    badge: "game",
+    badgeLabel: "Games",
+    category: "Games",
+    date: "01 MAI 2026",
+    icon: "🗡️",
+    bg: "#0d1a14",
+    tags: ["Games","RPG","Top"],
+    read: "5 min",
+    author: "Ana Caldas",
+    initials: "AC",
+    rating: null,
+    verdict: null,
+    content: [
+      { type: "p", text: "2026 é um ano extraordinário para os fãs de RPG. Com títulos de estúdios consagrados e surpresas indie, há jogos para todos os gostos. Reunimos os 10 mais aguardados com base em anúncios, demos e buzz da comunidade." },
+      { type: "h2", text: "1. Monster Hunter Wilds: Expansion" },
+      { type: "p", text: "A expansão de Wilds promete novos ecossistemas, monstros inéditos e uma história que aprofunda o lore da série. A Capcom confirmou que será maior do que qualquer expansão anterior." },
+      { type: "h2", text: "2. Avowed (DLC)" },
+      { type: "p", text: "O RPG da Obsidian continua com conteúdo adicional substancial, expandindo o mundo de Eora com novas facções e um sistema de magia reformulado." },
+      { type: "h2", text: "3. Hollow Knight: Silksong" },
+      { type: "p", text: "Sim, ele finalmente saiu — e já está nos nossos corações e wishlists de DLC. Mas a comunidade ainda pede mais de Hornet e seu universo." },
+      { type: "p", text: "Os outros 7 títulos da lista incluem surpresas de estúdios indie japoneses, um RPG tático de licença europeia e uma aguardada sequência de uma série cult dos anos 2000. 2026 não perdoa quem tem trabalho." }
+    ]
+  },
+  {
+    id: 2,
+    title: "Temporada primavera 2026: o que assistir",
+    shortTitle: "Animes primavera 2026",
+    desc: "Guia completo com notas e onde assistir cada série da temporada.",
+    badge: "anime",
+    badgeLabel: "Anime",
+    category: "Anime",
+    date: "30 ABR 2026",
+    icon: "🌸",
+    bg: "#0d1a20",
+    tags: ["Anime","Isekai","Shonen"],
+    read: "6 min",
+    author: "Camila Reis",
+    initials: "CR",
+    rating: null,
+    verdict: null,
+    content: [
+      { type: "p", text: "A temporada de primavera de 2026 chegou forte. Com mais de 40 estreias, separamos o que realmente vale seu tempo — e o que pode esperar." },
+      { type: "h2", text: "Destaques da temporada" },
+      { type: "p", text: "Sword Art Online: Aincrad Chronicles lidera o buzz da temporada com uma reimaginação do arco original em estilo mais maduro e com novo diretor de arte. Os dois primeiros episódios já indicam uma obra acima da média." },
+      { type: "h2", text: "Surpresas da temporada" },
+      { type: "p", text: "Kaijuu no. 9 Season 3 e Dungeon Meshi: Aftermath completam o pódio. Ambos continuam tradições já consolidadas com produção impecável. Para quem gosta de slice of life, Café Terrace and Its Goddesses S2 é o comfort anime perfeito." },
+      { type: "h2", text: "Onde assistir" },
+      { type: "p", text: "A maioria dos títulos está disponível na Crunchyroll e na Netflix simultaneamente. Alguns títulos exclusivos aparecem na Amazon Prime Video. Confira nossa tabela completa no guia da temporada para detalhes de streaming por região." }
+    ]
+  },
+  {
+    id: 3,
+    title: "Top 5 vilões mais icônicos dos animes",
+    shortTitle: "Top 5 vilões de anime",
+    desc: "De Madara a Aizen, quem realmente roubou a cena ao longo dos anos?",
+    badge: "top",
+    badgeLabel: "Top Lista",
+    category: "Anime",
+    date: "28 ABR 2026",
+    icon: "🏆",
+    bg: "#1a1500",
+    tags: ["Anime","Top","Shonen"],
+    read: "4 min",
+    author: "Felipe Santos",
+    initials: "FS",
+    rating: null,
+    verdict: null,
+    content: [
+      { type: "p", text: "Vilões memoráveis fazem os animes inesquecíveis. Mais do que antagonistas, eles são espelhos tortos dos heróis — com motivações que às vezes fazem mais sentido do que as do protagonista. Veja os cinco que mais marcaram gerações." },
+      { type: "h2", text: "5. Meruem — Hunter x Hunter" },
+      { type: "p", text: "Nasceu como o inimigo mais ameaçador do universo HxH, mas terminou como um dos personagens mais humanos da série. Seu arco com Komugi é simplesmente perfeito." },
+      { type: "h2", text: "4. Light Yagami — Death Note" },
+      { type: "p", text: "Tecnicamente é o protagonista, mas poucos antis já foram tão satisfatórios de acompanhar. A queda de Light é uma aula de tragédia clássica atualizada para o século XXI." },
+      { type: "h2", text: "3. Madara Uchiha — Naruto Shippuden" },
+      { type: "p", text: "\"Desperte-me quando houver uma guerra real.\" Madara redefiniu o que um vilão podia ser em Naruto. Sua entrada no campo de batalha ainda causa arrepios." },
+      { type: "h2", text: "2. Sosuke Aizen — Bleach" },
+      { type: "p", text: "O traidor que ninguém viu vir. Aizen manipulou personagens e leitores por anos, e sua calma absoluta diante de qualquer ameaça nunca cansa." },
+      { type: "h2", text: "1. Johan Liebert — Monster" },
+      { type: "p", text: "O vilão mais perturbador do medium. Johan não precisa de poderes sobrenaturais — só de palavras, carisma e uma frieza que deixa qualquer sala gelada." }
+    ]
+  },
+  {
+    id: 4,
+    title: "Hollow Knight: Silksong — análise completa",
+    shortTitle: "Hollow Knight: Silksong",
+    desc: "O jogo mais esperado dos últimos anos finalmente chegou. Valeu a espera?",
+    badge: "review",
+    badgeLabel: "Review",
+    category: "Games",
+    date: "25 ABR 2026",
+    icon: "🕷️",
+    bg: "#100a1a",
+    tags: ["Games","Review","Indie"],
+    read: "10 min",
+    author: "Lucas Mota",
+    initials: "LM",
+    rating: "9.2",
+    verdict: "Obra-prima",
+    content: [
+      { type: "p", text: "Depois de anos de espera — e memes infinitos — Hollow Knight: Silksong chegou. E a grande pergunta é: o jogo mais aguardado da década indie entregou o que prometia?" },
+      { type: "h2", text: "A resposta curta" },
+      { type: "p", text: "Sim. Com folga." },
+      { type: "h2", text: "O que mudou de Hollow Knight para Silksong" },
+      { type: "p", text: "Jogar com Hornet muda fundamentalmente o ritmo do jogo. Ela é muito mais ágil do que o Cavaleiro, com um moveset voltado para combos e mobilidade. O novo sistema de seda — que substitui a alma — encoraja jogadores agressivos a manter pressão constante sobre os inimigos." },
+      { type: "quote", text: "Silksong não é apenas uma sequência — é uma declaração de que a Team Cherry cresceu junto com seus fãs." },
+      { type: "p", text: "O mundo de Pharloom é visualmente deslumbrante. Cada região tem uma identidade visual distinta, e a equipe claramente se inspirou em arquitetura orgânica para criar locais que parecem vivos. A trilha sonora de Christopher Larkin, mais uma vez, é impecável." },
+      { type: "score", rating: "9.2", verdict: "Obra-prima" },
+      { type: "proscons", pros: ["Combate fluido e satisfatório","Mundo rico e cheio de segredos","Trilha sonora excepcional","Chefes memoráveis e bem desafiadores"], cons: ["Pode ser opressivo para novatos","Alguns puzzles pouco intuitivos","Mapa pouco claro no início"] }
+    ]
+  },
+  {
+    id: 5,
+    title: "Demon Slayer — arco final é o melhor da série?",
+    shortTitle: "Demon Slayer arco final",
+    desc: "Hashira Training e o clímax de Kimetsu no Yaiba analisados a fundo.",
+    badge: "anime",
+    badgeLabel: "Anime",
+    category: "Anime",
+    date: "22 ABR 2026",
+    icon: "🔥",
+    bg: "#1a0a0a",
+    tags: ["Anime","Shonen","Review"],
+    read: "7 min",
+    author: "Camila Reis",
+    initials: "CR",
+    rating: "9.0",
+    verdict: "Essencial",
+    content: [
+      { type: "p", text: "Demon Slayer: Kimetsu no Yaiba chegou ao seu arco final — e a questão que divide a comunidade é: a Mugen Train Arc ainda é o pico da série, ou o Final Hashira Training Arc superou tudo?" },
+      { type: "h2", text: "O que o arco final acerta" },
+      { type: "p", text: "A ufotable entregou produções cada vez mais ambiciosas. As animações do arco final estão entre as mais impressionantes já vistas num anime de TV — cenas que parecem filmes completos. O desenvolvimento de Tanjiro e a resolução dos arcos dos Hashiras são emocionalmente satisfatórios." },
+      { type: "h2", text: "As críticas da comunidade" },
+      { type: "p", text: "Parte dos fãs aponta que o roteiro sacrifica coerência interna em favor do espetáculo visual. Algumas reviravoltas são questionáveis, e certos personagens recebem resoluções apressadas. Ainda assim, o conjunto da obra é poderoso." },
+      { type: "score", rating: "9.0", verdict: "Essencial" },
+      { type: "proscons", pros: ["Animação cinematográfica","Emocionalmente intenso","Resoluções satisfatórias","Trilha sonora épica"], cons: ["Algumas lógicas questionáveis","Personagens secundários sub-aproveitados"] }
+    ]
+  }
+];
+
+let currentFilter = "Tudo";
+
+function renderPosts(filter) {
+  const grid = document.getElementById("postsGrid");
+  const filtered = filter === "Tudo" ? posts : posts.filter(p => p.tags.some(t => t.toLowerCase().includes(filter.toLowerCase())));
+  grid.innerHTML = filtered.map(p => `
+    <div class="card" onclick="showArticle(${p.id})">
+      <div class="card-thumb" style="background:${p.bg};">${p.icon}</div>
+      <div class="card-body">
+        <div class="card-badge-row"><span class="badge badge-${p.badge}">${p.badgeLabel}</span></div>
+        <div class="card-title">${p.shortTitle}</div>
+        <div class="card-desc">${p.desc}</div>
+      </div>
+      <div class="card-foot">
+        <span class="card-date">${p.date}</span>
+        <span class="card-read">Ler →</span>
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderTrending() {
+  const list = document.getElementById("trendingList");
+  const trending = [posts[5], posts[1], posts[3], posts[4]];
+  list.innerHTML = trending.map((p, i) => `
+    <div class="trending-item" onclick="showArticle(${p.id})">
+      <div class="trending-num">0${i+1}</div>
+      <div class="trending-info">
+        <div class="trending-ttl">${p.title}</div>
+        <div class="trending-sub"><span class="badge badge-${p.badge}" style="font-size:9px;">${p.badgeLabel}</span>&nbsp;${p.read} leitura</div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function filterTag(tag) {
+  currentFilter = tag;
+  document.querySelectorAll(".tag").forEach(t => {
+    t.classList.toggle("active", t.textContent.trim() === tag || (tag === "Tudo" && t.textContent.trim() === "Tudo"));
+  });
+  renderPosts(tag);
+}
+
+function showPage(name) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page-" + name).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showArticle(id) {
+  const p = posts.find(x => x.id === id);
+  if (!p) return;
+  let html = `
+    <div class="article-hero">
+      <div class="article-category">${p.category}</div>
+      <h1 class="article-h1">${p.title.replace(/:/,':<br><em>').replace('</em>','</em>')}</h1>
+      <div class="article-byline">
+        <div class="article-author">
+          <div class="author-avatar">${p.initials}</div>
+          <span>${p.author}</span>
+        </div>
+        <span>${p.date} · ${p.read} leitura</span>
+        ${p.rating ? `<div class="article-rating">★ ${p.rating}</div>` : ""}
+        <span class="badge badge-${p.badge}">${p.badgeLabel}</span>
+      </div>
+    </div>
+    <div class="article-banner" style="background:${p.bg};">${p.icon}</div>
+    <div class="article-body">
+  `;
+  p.content.forEach(block => {
+    if (block.type === "p") html += `<p>${block.text}</p>`;
+    else if (block.type === "h2") html += `<h2>${block.text}</h2>`;
+    else if (block.type === "quote") html += `<blockquote><p>${block.text}</p></blockquote>`;
+    else if (block.type === "score") html += `
+      <div class="score-box">
+        <div class="score-num">${block.rating}</div>
+        <div>
+          <div class="score-label">Nota do Nível MAX</div>
+          <div class="score-verdict">${block.verdict}</div>
+        </div>
+      </div>`;
+    else if (block.type === "proscons") html += `
+      <div class="pros-cons">
+        <div class="pros">
+          <div class="pros-title">✔ Prós</div>
+          <ul>${block.pros.map(x => `<li>${x}</li>`).join("")}</ul>
+        </div>
+        <div class="cons">
+          <div class="cons-title">✖ Contras</div>
+          <ul>${block.cons.map(x => `<li>${x}</li>`).join("")}</ul>
+        </div>
+      </div>`;
+  });
+  html += `</div>`;
+
+  const related = posts.filter(x => x.id !== id && x.tags.some(t => p.tags.includes(t))).slice(0,3);
+  if (related.length) {
+    html += `<div class="related-section">
+      <div class="section-title" style="padding:0 0 1rem;">Leia também</div>
+      <div class="grid">
+        ${related.map(r => `
+          <div class="card" onclick="showArticle(${r.id})">
+            <div class="card-thumb" style="background:${r.bg};">${r.icon}</div>
+            <div class="card-body">
+              <div class="card-badge-row"><span class="badge badge-${r.badge}">${r.badgeLabel}</span></div>
+              <div class="card-title">${r.shortTitle}</div>
+            </div>
+            <div class="card-foot">
+              <span class="card-date">${r.date}</span>
+              <span class="card-read">Ler →</span>
+            </div>
+          </div>`).join("")}
+      </div>
+    </div>`;
+  }
+
+  html += `<footer><div class="footer-logo">Nível <span>MAX</span></div><div class="footer-copy">© 2026 Nível MAX</div></footer>`;
+
+  document.getElementById("articleContent").innerHTML = html;
+  showPage("article");
+}
+
+function openSearch() {
+  document.getElementById("searchOverlay").classList.add("active");
+  setTimeout(() => document.getElementById("searchInput").focus(), 100);
+}
+
+function closeSearch() {
+  document.getElementById("searchOverlay").classList.remove("active");
+  document.getElementById("searchInput").value = "";
+  document.getElementById("searchResults").innerHTML = '<div class="search-empty">Digite para buscar...</div>';
+}
+
+function doSearch(q) {
+  const res = document.getElementById("searchResults");
+  if (!q.trim()) { res.innerHTML = '<div class="search-empty">Digite para buscar...</div>'; return; }
+  const matches = posts.filter(p =>
+    p.title.toLowerCase().includes(q.toLowerCase()) ||
+    p.desc.toLowerCase().includes(q.toLowerCase()) ||
+    p.tags.some(t => t.toLowerCase().includes(q.toLowerCase()))
+  );
+  if (!matches.length) { res.innerHTML = '<div class="search-empty">Nenhum resultado encontrado.</div>'; return; }
+  res.innerHTML = matches.map(p => `
+    <div class="search-result-item" onclick="closeSearch();showArticle(${p.id})">
+      <span style="font-size:28px;">${p.icon}</span>
+      <div>
+        <div class="search-result-title">${p.title}</div>
+        <div class="search-result-sub"><span class="badge badge-${p.badge}" style="margin-right:6px;">${p.badgeLabel}</span>${p.date} · ${p.read}</div>
+      </div>
+    </div>
+  `).join("");
+}
+
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeSearch(); });
+
+renderPosts("Tudo");
+renderTrending();
+</script>
+</body>
+</html>
